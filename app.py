@@ -17,7 +17,7 @@ with st.form("bea_form"):
     with c4:
         Q_target = st.number_input("Target quantity (Q_target)", min_value=0.0, value=300.0, step=10.0)
 
-    currency = st.text_input("Currency symbol (optional)", value="$")
+    currency = st.text_input("Currency symbol (optional)", value="₹")
     submitted = st.form_submit_button("Calculate")
 
 if submitted:
@@ -51,8 +51,10 @@ if submitted:
         "Fixed Cost": np.full_like(Q, FC),
     })
 
-    base = alt.Chart(df).encode(x=alt.X("Quantity:Q", title="Quantity (Units)"),
-                                y=alt.Y("value:Q", title=f"Value ({currency})"))
+    base = alt.Chart(df).encode(
+        x=alt.X("Quantity:Q", title="Quantity (Units)"),
+        y=alt.Y("value:Q", title=f"Value ({currency})")
+    )
 
     lines = base.transform_fold(
         ["Revenue", "Total Cost", "Fixed Cost"],
